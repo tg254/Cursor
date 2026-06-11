@@ -460,7 +460,3 @@ if prompt := st.chat_input("Tell me about your project..."):
                                 st.toast("✅ Lead captured!", icon="✏️")
             except Exception as e:
                 st.error(f"Error: {e}")
-
-Output
-
-Done!
