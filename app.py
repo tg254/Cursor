@@ -494,26 +494,27 @@ if prompt := st.chat_input("Tell me about your project..."):
                     temperature=0.7,
                     max_tokens=600,
                 )
-                reply = response.choices[0].message.content
+              reply = response.choices[0].message.content
                 st.markdown(reply)
                 st.session_state.messages.append(
                     {"role": "assistant", "content": reply})
-                
-                # Check if lead is complete and save to sheets
+
+                # Only save when Cursor says the final confirmation
                 if not st.session_state.get("lead_saved"):
-                    lead = extract_lead_details(st.session_state.messages)
-                      if lead.get("complete") and lead.get("phone"):
-                        saved = save_to_sheets(
-                            lead.get("name", ""),
-                            lead.get("email", ""),
-                            lead.get("phone", ""),
-                            lead.get("project", ""),
-                            lead.get("location", ""),
-                            lead.get("budget", ""),
-                            lead.get("timeline", "")
-                        )
-                        if saved:
-                            st.session_state.lead_saved = True
-                            st.toast("✅ Captured!")
+                    if "I've captured all your project details" in reply:
+                        lead = extract_lead_details(st.session_state.messages)
+                        if lead.get("name") and lead.get("email"):
+                            saved = save_to_sheets(
+                                lead.get("name", ""),
+                                lead.get("email", ""),
+                                lead.get("phone", ""),
+                                lead.get("project", ""),
+                                lead.get("location", ""),
+                                lead.get("budget", ""),
+                                lead.get("timeline", "")
+                            )
+                            if saved:
+                                st.session_state.lead_saved = True
+                                st.toast("✅ Lead captured!", icon="✏️")
             except Exception as e:
                 st.error(f"Error: {e}")
