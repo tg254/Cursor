@@ -19,7 +19,6 @@ def save_to_sheets(name, email, phone, project, location, budget, timeline):
         creds = Credentials.from_service_account_info(
          st.secrets["gcp_service_account"],
          scopes=scope
-)
         )
         client = gspread.authorize(creds)
         sheet = client.open("Cursor Leads").sheet1
