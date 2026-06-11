@@ -484,7 +484,7 @@ if prompt := st.chat_input("Tell me about your project..."):
                 # Check if lead is complete and save to sheets
                 if not st.session_state.get("lead_saved"):
                     lead = extract_lead_details(st.session_state.messages)
-                    if lead.get("complete"):
+                      if lead.get("complete") and lead.get("phone"):
                         saved = save_to_sheets(
                             lead.get("name", ""),
                             lead.get("email", ""),
@@ -496,6 +496,6 @@ if prompt := st.chat_input("Tell me about your project..."):
                         )
                         if saved:
                             st.session_state.lead_saved = True
-                            st.toast("✅ Lead captured!", icon="✏️")
+                            st.toast("✅ Captured!")
             except Exception as e:
                 st.error(f"Error: {e}")
