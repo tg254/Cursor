@@ -507,7 +507,7 @@ if prompt := st.chat_input("Tell me about your project..."):
                 if not st.session_state.get("lead_saved"):
                     if "I've captured all your project details" in reply:
                         lead = extract_lead_details(st.session_state.messages)
-                         if lead.get("name") and lead.get("email"):
+                        if lead.get("name") and lead.get("email"):
                             saved = save_to_sheets(
                                 lead.get("name", ""),
                                 lead.get("email", ""),
